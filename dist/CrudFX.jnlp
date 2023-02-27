@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="CrudFX.jar" size="7253" download="eager" />
+    <jar href="CrudFX.jar" size="8495" download="eager" />
     <jar href="lib\javafx-swt.jar" size="37123" download="eager" />
     <jar href="lib\javafx.base.jar" size="752299" download="eager" />
     <jar href="lib\javafx.controls.jar" size="2547926" download="eager" />

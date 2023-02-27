@@ -12,14 +12,14 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TelaFXMLController">
    <children>
-      <Button layoutX="399.0" layoutY="107.0" mnemonicParsing="false" onAction="#actionSQLInsert" text="SQL Insert" />
+      <Button fx:id="insertButton" layoutX="399.0" layoutY="107.0" mnemonicParsing="false" onAction="#actionSQLInsert" text="SQL Insert" />
       <Button layoutX="590.0" layoutY="107.0" mnemonicParsing="false" onAction="#actionSQLSelect" text="SQL Select" />
       <Label layoutX="323.0" layoutY="32.0" text="Id" />
       <Label layoutX="419.0" layoutY="32.0" text="Nome" />
-      <TextField fx:id="txtId" layoutX="323.0" layoutY="60.0" prefHeight="25.0" prefWidth="68.0" />
-      <TextField fx:id="txtNome" layoutX="419.0" layoutY="60.0" prefHeight="25.0" prefWidth="243.0" />
+      <TextField fx:id="txtId" layoutX="323.0" layoutY="60.0" onKeyReleased="#desabilitarBotao" prefHeight="25.0" prefWidth="68.0" />
+      <TextField fx:id="txtNome" layoutX="419.0" layoutY="60.0" onKeyReleased="#desabilitarBotao" prefHeight="25.0" prefWidth="243.0" />
       <Button layoutX="395.0" layoutY="159.0" mnemonicParsing="false" onAction="#actionSQLUpdate" text="SQL Update" />
-      <TableView fx:id="tabela" layoutY="300.0" prefHeight="200.0" prefWidth="700.0">
+      <TableView fx:id="tabela" layoutY="300.0" onMouseClicked="#onMouseClick" prefHeight="200.0" prefWidth="700.0">
         <columns>
           <TableColumn fx:id="idCol" prefWidth="165.6000121831894" text="id" />
             <TableColumn fx:id="nomeCol" prefWidth="532.8000183105469" text="nome" />

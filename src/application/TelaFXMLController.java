@@ -14,9 +14,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 
 public class TelaFXMLController implements Initializable {
 	
@@ -25,6 +29,9 @@ public class TelaFXMLController implements Initializable {
 	
 	@FXML
 	private TextField txtNome;
+        
+        @FXML
+        private Button insertButton;
         
         @FXML
         private TableColumn<Aluno, Integer> idCol;
@@ -39,9 +46,10 @@ public class TelaFXMLController implements Initializable {
 	
         @Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-            
+                
 		nomeCol.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+                insertButton.setDisable(true);
                 iniciarTable();
                 tabela.setItems(list);
 		
@@ -70,14 +78,44 @@ public class TelaFXMLController implements Initializable {
 	
 	@FXML
 	public void actionSQLInsert(ActionEvent event) {
-		
+		Alert a = new Alert(AlertType.ERROR);
+                Alert s = new Alert(AlertType.INFORMATION);
 		try {
+                        String nometeste = txtNome.getText();
+                        String idteste = txtId.getText();
+                        if(nometeste.isEmpty() || idteste.isEmpty()){
+                            a.setTitle("Erro");
+                            a.setHeaderText("Digite os valores corretamente");
+                            a.showAndWait();
+                            return;
+                        }
+                        else{
+                       
+                        try{
+                        Integer id = Integer.valueOf(idteste);
 			DBUtil db = DBUtil.getInstance();
 			PreparedStatement ps = db.getConnection().prepareStatement("INSERT INTO teste (id, nome) values (?, ?)");
-			ps.setInt(1, Integer.parseInt(txtId.getText()));
+			try{
+                        ps.setInt(1, id);
 			ps.setString(2, txtNome.getText());
 			ps.execute();
-		
+                        s.setTitle("OK");
+                        s.setHeaderText("Usuario cadastrado com sucesso");
+                        s.showAndWait();
+                        }
+                        catch(Exception e){
+                            a.setTitle("Erro");
+                            a.setHeaderText("Id em uso, insira outro !");
+                            a.showAndWait();
+                            
+                        }
+                        }
+                        catch(NumberFormatException e){
+                            a.setTitle("Erro");
+                            a.setHeaderText("Id não é inteiro");
+                            a.showAndWait();
+                        }
+                        }
 		}
 		catch(Exception e){
 			System.out.println("Erro: " + e.toString());
@@ -131,6 +169,24 @@ public class TelaFXMLController implements Initializable {
                 Logger.getLogger(TelaFXMLController.class.getName()).log(Level.SEVERE, null, ex);
             }
 		
+        }
+        
+        @FXML
+        private void onMouseClick(MouseEvent event) {
+        Aluno aluno = tabela.getSelectionModel().getSelectedItem();
+        txtId.setText(aluno.getId().toString());
+	txtNome.setText(aluno.getNome());
+        System.out.println("id " + aluno.getId() );
+        System.out.println("nome " + aluno.getNome());
+    }
+        
+        @FXML
+        public void desabilitarBotao(){
+            boolean botao = false;
+            
+            botao = (txtId.getText().isEmpty() | txtNome.getText().isEmpty());
+            insertButton.setDisable(botao);
+            System.out.println("palmeiras");
         }
 	
 	
