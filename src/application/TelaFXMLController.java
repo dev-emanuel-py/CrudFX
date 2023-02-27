@@ -18,7 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class TelaFXMLController implements Initializable{
+public class TelaFXMLController implements Initializable {
 	
 	@FXML
 	private TextField txtId;
@@ -42,7 +42,7 @@ public class TelaFXMLController implements Initializable{
             
 		nomeCol.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-                initTable();
+                iniciarTable();
                 tabela.setItems(list);
 		
 	}
@@ -64,7 +64,7 @@ public class TelaFXMLController implements Initializable{
 		catch(Exception e) {
 			System.out.println("Erro: " + e.toString());
 		}
-                initTable();
+                iniciarTable();
 		
 	}
 	
@@ -82,7 +82,7 @@ public class TelaFXMLController implements Initializable{
 		catch(Exception e){
 			System.out.println("Erro: " + e.toString());
 		}
-		initTable();
+		iniciarTable();
 		
 	}
 	
@@ -98,7 +98,7 @@ public class TelaFXMLController implements Initializable{
 		}catch(Exception e){
 			System.out.println("Erro: " + e.toString());
 	}
-                initTable();
+                iniciarTable();
 	}
         
         @FXML
@@ -112,10 +112,10 @@ public class TelaFXMLController implements Initializable{
 		}catch(Exception e){
 			System.out.println("Erro: " + e.toString());
 	}
-                initTable();
+                iniciarTable();
 	}
 	
-	public void initTable(){
+	public void iniciarTable(){
             list.clear();
             try {
                 DBUtil db = DBUtil.getInstance();

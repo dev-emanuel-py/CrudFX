@@ -3,8 +3,8 @@ package application;
 
 public class Aluno {
 
-	Integer id;
-	String nome;
+	private Integer id;
+	private String nome;
 	
 	
 	public Aluno(Integer id, String nome) {
