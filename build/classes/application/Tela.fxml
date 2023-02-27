@@ -7,32 +7,48 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TelaFXMLController">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TelaFXMLController">
    <children>
-      <Button fx:id="insertButton" layoutX="399.0" layoutY="107.0" mnemonicParsing="false" onAction="#actionSQLInsert" text="SQL Insert" />
-      <Button layoutX="590.0" layoutY="107.0" mnemonicParsing="false" onAction="#actionSQLSelect" text="SQL Select" />
-      <Label layoutX="323.0" layoutY="32.0" text="Id" />
-      <Label layoutX="419.0" layoutY="32.0" text="Nome" />
-      <TextField fx:id="txtId" layoutX="323.0" layoutY="60.0" onKeyReleased="#desabilitarBotao" prefHeight="25.0" prefWidth="68.0" />
-      <TextField fx:id="txtNome" layoutX="419.0" layoutY="60.0" onKeyReleased="#desabilitarBotao" prefHeight="25.0" prefWidth="243.0" />
-      <Button layoutX="395.0" layoutY="159.0" mnemonicParsing="false" onAction="#actionSQLUpdate" text="SQL Update" />
-      <TableView fx:id="tabela" layoutY="300.0" onMouseClicked="#onMouseClick" prefHeight="200.0" prefWidth="700.0">
+      <Button fx:id="insertButton" layoutX="138.0" layoutY="219.0" mnemonicParsing="false" onAction="#actionSQLInsert" prefHeight="26.0" prefWidth="75.0" text="Inserir">
+         <font>
+            <Font name="Britannic Bold" size="12.0" />
+         </font></Button>
+      <Label layoutX="46.0" layoutY="115.0" text="Id">
+         <font>
+            <Font name="Agency FB" size="18.0" />
+         </font></Label>
+      <Label layoutX="153.0" layoutY="115.0" text="Nome">
+         <font>
+            <Font name="Agency FB" size="18.0" />
+         </font></Label>
+      <TextField fx:id="txtId" layoutX="43.0" layoutY="144.0" onKeyReleased="#desabilitarBotao" prefHeight="26.0" prefWidth="82.0" />
+      <TextField fx:id="txtNome" layoutX="151.0" layoutY="144.0" onKeyReleased="#desabilitarBotao" prefHeight="25.0" prefWidth="243.0" />
+      <Button fx:id="updateButton" layoutX="235.0" layoutY="219.0" mnemonicParsing="false" onAction="#actionSQLUpdate" prefHeight="26.0" prefWidth="75.0" text="Atualizar">
+         <font>
+            <Font name="Britannic Bold" size="12.0" />
+         </font></Button>
+      <TableView fx:id="tableAluno" layoutY="300.0" onMouseClicked="#moverDados" prefHeight="200.0" prefWidth="700.0">
         <columns>
-          <TableColumn fx:id="idCol" prefWidth="165.6000121831894" text="id" />
-            <TableColumn fx:id="nomeCol" prefWidth="532.8000183105469" text="nome" />
+          <TableColumn fx:id="ColTableId" prefWidth="165.6000121831894" text="ID" />
+            <TableColumn fx:id="ColTableNome" prefWidth="532.8000183105469" text="NOME" />
         </columns>
       </TableView>
-      <Button layoutX="588.0" layoutY="159.0" mnemonicParsing="false" onAction="#actionSQLDelete" text="SQL Delete" />
-      <Text fontSmoothingType="LCD" layoutX="36.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CADASTRO DE ALUNOS" wrappingWidth="166.2320556640625">
+      <Button fx:id="deleteButton" layoutX="46.0" layoutY="219.0" mnemonicParsing="false" onAction="#actionSQLDelete" prefHeight="26.0" prefWidth="75.0" text="Apagar">
          <font>
-            <Font name="Agency FB" size="35.0" />
+            <Font name="Britannic Bold" size="12.0" />
+         </font></Button>
+      <Text fontSmoothingType="LCD" layoutX="146.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CADASTRO DE ALUNOS" textAlignment="CENTER" wrappingWidth="408.632080078125">
+         <font>
+            <Font name="Agency FB" size="48.0" />
          </font>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </Text>
+      <Pane layoutY="84.0" prefHeight="6.0" prefWidth="700.0" style="-fx-background-color: #000000;" />
    </children>
 </AnchorPane>

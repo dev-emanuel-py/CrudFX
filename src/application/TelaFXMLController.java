@@ -34,50 +34,37 @@ public class TelaFXMLController implements Initializable {
         private Button insertButton;
         
         @FXML
-        private TableColumn<Aluno, Integer> idCol;
+        private Button deleteButton;
+        
+        @FXML
+        private Button updateButton;
+        
+        @FXML
+        private TableColumn<Aluno, Integer> ColTableId;
 
         @FXML
-        private TableColumn<Aluno, String> nomeCol;
+        private TableColumn<Aluno, String> ColTableNome;
 
         @FXML
-        private TableView<Aluno> tabela;
+        private TableView<Aluno> tableAluno;
         
         ObservableList<Aluno> list = FXCollections.observableArrayList();
 	
         @Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
                 
-		nomeCol.setCellValueFactory(new PropertyValueFactory<>("nome"));
-		idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+		ColTableNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+		ColTableId.setCellValueFactory(new PropertyValueFactory<>("id"));
                 insertButton.setDisable(true);
-                iniciarTable();
-                tabela.setItems(list);
+                deleteButton.setDisable(true);
+                updateButton.setDisable(true);
+                iniciarTableView();
+                tableAluno.setItems(list);
 		
 	}
 	
 	
-	@FXML
-	public void actionSQLSelect (ActionEvent event) {
-		try {
-		DBUtil db = DBUtil.getInstance();
-		PreparedStatement ps = db.getConnection().prepareStatement("SELECT * from teste");
-		ResultSet rs = ps.executeQuery();
-		System.out.println("");
-		System.out.println("Lista :");
-		System.out.println("");  
-		while(rs.next()) {
-			System.out.println(rs.getInt("id") + "-" + rs.getString("nome"));
-		}
-	}
-		catch(Exception e) {
-			System.out.println("Erro: " + e.toString());
-		}
-                iniciarTable();
-		
-	}
-	
-	@FXML
-	public void actionSQLInsert(ActionEvent event) {
+	@FXML	public void actionSQLInsert(ActionEvent event) {
 		Alert a = new Alert(AlertType.ERROR);
                 Alert s = new Alert(AlertType.INFORMATION);
 		try {
@@ -120,23 +107,34 @@ public class TelaFXMLController implements Initializable {
 		catch(Exception e){
 			System.out.println("Erro: " + e.toString());
 		}
-		iniciarTable();
+		iniciarTableView();
 		
 	}
 	
 	@FXML
 	public void actionSQLUpdate(ActionEvent event) {
+            Alert a = new Alert(AlertType.ERROR);
+            Alert s = new Alert(AlertType.INFORMATION);
 		try {
+                    try{
+                        Integer id = Integer.valueOf(txtId.getText());
 			DBUtil db = DBUtil.getInstance();
-			PreparedStatement ps = db.getConnection().prepareStatement("UPDATE teste SET nome = ? WHERE id = ?");
-			ps.setString(1, txtNome.getText());
-			ps.setInt(2, Integer.parseInt(txtId.getText()));	
-			ps.execute();
-			
+			PreparedStatement ps = db.getConnection().prepareStatement("UPDATE teste SET nome = ? WHERE id = ?");                      
+                            ps.setString(1, txtNome.getText());
+                            ps.setInt(2, id);	
+                            ps.execute();
+                        s.setTitle("OK");
+                        s.setHeaderText("Usuario atualizado com sucesso");
+                        s.showAndWait();
+                    }catch(NumberFormatException e){
+                            a.setTitle("Erro");
+                            a.setHeaderText("Id não é inteiro");
+                            a.showAndWait();
+                        }
 		}catch(Exception e){
 			System.out.println("Erro: " + e.toString());
 	}
-                iniciarTable();
+                iniciarTableView();
 	}
         
         @FXML
@@ -150,10 +148,10 @@ public class TelaFXMLController implements Initializable {
 		}catch(Exception e){
 			System.out.println("Erro: " + e.toString());
 	}
-                iniciarTable();
+                iniciarTableView();
 	}
 	
-	public void iniciarTable(){
+	public void iniciarTableView(){
             list.clear();
             try {
                 DBUtil db = DBUtil.getInstance();
@@ -172,21 +170,35 @@ public class TelaFXMLController implements Initializable {
         }
         
         @FXML
-        private void onMouseClick(MouseEvent event) {
-        Aluno aluno = tabela.getSelectionModel().getSelectedItem();
-        txtId.setText(aluno.getId().toString());
-	txtNome.setText(aluno.getNome());
-        System.out.println("id " + aluno.getId() );
-        System.out.println("nome " + aluno.getNome());
+        private void moverDados(MouseEvent event) {
+        Aluno a = tableAluno.getSelectionModel().getSelectedItem();
+        txtId.setText(a.getId().toString());
+	txtNome.setText(a.getNome());
+        System.out.println("id" + a.getId() );
+        System.out.println("nome" + a.getNome());
+        deleteButton.setDisable(false);
     }
         
         @FXML
         public void desabilitarBotao(){
-            boolean botao = false;
+            boolean botaoInsert;
+            boolean botaoDelete;
+            boolean botaoUpdate;
+            Integer id = Integer.valueOf(txtId.getText());
+            botaoInsert = (txtId.getText().isEmpty() | txtNome.getText().isEmpty());
+            insertButton.setDisable(botaoInsert);
+            for(Aluno a: list){
+                   if(a.getId().equals(id)){
+                       insertButton.setDisable(true);
+                   }
+            }
             
-            botao = (txtId.getText().isEmpty() | txtNome.getText().isEmpty());
-            insertButton.setDisable(botao);
-            System.out.println("palmeiras");
+            botaoUpdate = (txtId.getText().isEmpty() | txtNome.getText().isEmpty());
+            updateButton.setDisable(botaoUpdate);
+            
+            botaoDelete = (txtId.getText().isEmpty());
+            deleteButton.setDisable(botaoDelete);
+            
         }
 	
 	

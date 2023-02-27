@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="CrudFX.jnlp">
+  <information>
+    <title>CrudFX</title>
+    <vendor>emanu</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="CrudFX.jar" size="7741" download="eager" />
+    <jar href="lib\javafx-swt.jar" size="37123" download="eager" />
+    <jar href="lib\javafx.base.jar" size="752299" download="eager" />
+    <jar href="lib\javafx.controls.jar" size="2547926" download="eager" />
+    <jar href="lib\javafx.fxml.jar" size="130080" download="eager" />
+    <jar href="lib\javafx.graphics.jar" size="4261996" download="eager" />
+    <jar href="lib\javafx.media.jar" size="277699" download="eager" />
+    <jar href="lib\javafx.swing.jar" size="88811" download="eager" />
+    <jar href="lib\javafx.web.jar" size="727229" download="eager" />
+    <jar href="lib\mysql-connector-java-8.0.30.jar" size="2513563" download="eager" />
+    <jar href="lib\postgresql-42.2.16.jar" size="1002883" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="800" height="600" main-class="application.Main"  name="CrudFX" />
+  <update check="always"/>
+</jnlp>
