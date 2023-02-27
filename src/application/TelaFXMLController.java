@@ -79,11 +79,10 @@ public class TelaFXMLController implements Initializable {
                         else{
                        
                         try{
-                        Integer id = Integer.valueOf(idteste);
 			DBUtil db = DBUtil.getInstance();
 			PreparedStatement ps = db.getConnection().prepareStatement("INSERT INTO teste (id, nome) values (?, ?)");
 			try{
-                        ps.setInt(1, id);
+                        ps.setInt(1, Integer.parseInt(idteste));
 			ps.setString(2, txtNome.getText());
 			ps.execute();
                         s.setTitle("OK");
@@ -117,15 +116,30 @@ public class TelaFXMLController implements Initializable {
             Alert s = new Alert(AlertType.INFORMATION);
 		try {
                     try{
-                        Integer id = Integer.valueOf(txtId.getText());
+                        Boolean ver = false;
 			DBUtil db = DBUtil.getInstance();
-			PreparedStatement ps = db.getConnection().prepareStatement("UPDATE teste SET nome = ? WHERE id = ?");                      
+			for(Aluno aluno: list){
+                                if(aluno.getId().equals(Integer.valueOf(txtId.getText()))){
+                                    ver = true;
+                                    
+                                } 
+                         }
+                        if(ver){
+                            PreparedStatement ps = db.getConnection().prepareStatement("UPDATE teste SET nome = ? WHERE id = ?");                                               
                             ps.setString(1, txtNome.getText());
-                            ps.setInt(2, id);	
+                            ps.setInt(2, Integer.parseInt(txtId.getText()));	
                             ps.execute();
-                        s.setTitle("OK");
-                        s.setHeaderText("Usuario atualizado com sucesso");
-                        s.showAndWait();
+                            s.setTitle("OK");
+                            s.setHeaderText("Usuario atualizado com sucesso");
+                            s.showAndWait();
+                        }
+                        else{
+                                    updateButton.setDisable(true);
+                                    a.setTitle("Erro");
+                                    a.setHeaderText("Id não existe");
+                                    a.showAndWait();
+                        }
+                        
                     }catch(NumberFormatException e){
                             a.setTitle("Erro");
                             a.setHeaderText("Id não é inteiro");
@@ -139,12 +153,39 @@ public class TelaFXMLController implements Initializable {
         
         @FXML
 	public void actionSQLDelete(ActionEvent event) {
+            Alert a = new Alert(AlertType.ERROR);
+            Alert s = new Alert(AlertType.INFORMATION);
 		try {
+                    try{
+                        Boolean ver = false;
 			DBUtil db = DBUtil.getInstance();
-			PreparedStatement ps = db.getConnection().prepareStatement("DELETE FROM teste WHERE id = ?");
-			ps.setInt(1, Integer.parseInt(txtId.getText()));	
-			ps.execute();
+                        for(Aluno aluno: list){
+                                if(aluno.getId().equals(Integer.valueOf(txtId.getText()))){
+                                    ver = true;
+                                    
+                                } 
+                         }
+                        if(ver){
+                            PreparedStatement ps = db.getConnection().prepareStatement("DELETE FROM teste WHERE id = ?");
+                            ps.setInt(1, Integer.parseInt(txtId.getText()));	
+                            ps.execute();
+                            s.setTitle("OK");
+                            s.setHeaderText("Usuario deletado com sucesso");
+                            s.showAndWait();
+                        }
+                        else{
+                                    deleteButton.setDisable(true);
+                                    a.setTitle("Erro");
+                                    a.setHeaderText("Id não existe");
+                                    a.showAndWait();
+                        }
 			
+          
+                    }catch(NumberFormatException e){
+                            a.setTitle("Erro");
+                            a.setHeaderText("Id não é inteiro ou esta vazio");
+                            a.showAndWait();
+                        }
 		}catch(Exception e){
 			System.out.println("Erro: " + e.toString());
 	}
@@ -159,9 +200,7 @@ public class TelaFXMLController implements Initializable {
                 ps = db.getConnection().prepareStatement("SELECT * from teste");
                 ResultSet rs = ps.executeQuery();
                 while(rs.next()){
-                    list.add(
-                            new Aluno(rs.getInt("id"), rs.getString("nome")
-                            ));
+                    list.add(new Aluno(rs.getInt("id"), rs.getString("nome")));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(TelaFXMLController.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,8 +213,6 @@ public class TelaFXMLController implements Initializable {
         Aluno a = tableAluno.getSelectionModel().getSelectedItem();
         txtId.setText(a.getId().toString());
 	txtNome.setText(a.getNome());
-        System.out.println("id" + a.getId() );
-        System.out.println("nome" + a.getNome());
         deleteButton.setDisable(false);
     }
         
@@ -184,23 +221,22 @@ public class TelaFXMLController implements Initializable {
             boolean botaoInsert;
             boolean botaoDelete;
             boolean botaoUpdate;
-            Integer id = Integer.valueOf(txtId.getText());
+            
             botaoInsert = (txtId.getText().isEmpty() | txtNome.getText().isEmpty());
             insertButton.setDisable(botaoInsert);
-            for(Aluno a: list){
-                   if(a.getId().equals(id)){
-                       insertButton.setDisable(true);
-                   }
-            }
             
             botaoUpdate = (txtId.getText().isEmpty() | txtNome.getText().isEmpty());
             updateButton.setDisable(botaoUpdate);
             
             botaoDelete = (txtId.getText().isEmpty());
             deleteButton.setDisable(botaoDelete);
-            
+            for(Aluno a: list){
+                   if(a.getId().equals(Integer.valueOf(txtId.getText()))){
+                       insertButton.setDisable(true);
+                   } 
+            }
         }
-	
+       
 	
 
         }
